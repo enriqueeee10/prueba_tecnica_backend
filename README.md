@@ -66,39 +66,49 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 
 ## Estructura de Carpetas
 
-.
-├── PRUEBA_TECNICA_BACKEND_FUO/
-│ ├── .pytest_cache/
-│ ├── alembic/
-│ ├── app/
-│ │ ├── config/
-│ │ ├── contexts/
-│ │ │ ├── auth/
-│ │ │ │ ├── application/
-│ │ │ │ ├── domain/
-│ │ │ │ └── infrastructure/
-│ │ │ ├── users/
-│ │ │ │ ├── application/
-│ │ │ │ ├── domain/
-│ │ │ │ └── infrastructure/
-│ │ │ └── shared/
-│ │ │ ├── application/
-│ │ │ ├── domain/
-│ │ │ └── infrastructure/
-│ │ └── main.py
-│ ├── docker/
-│ │ ├── Dockerfile
-│ │ ├── start-app.sh
-│ │ └── wait-for-sh.sh
-│ ├── migrations/
-│ ├── tests/
-│ ├── .env
-│ ├── .gitignore
-│ ├── alembic.ini
-│ ├── docker-compose.yml
-│ ├── pytest.ini
-│ ├── README.md
-│ └── requirements.txt
+```text
+PRUEBATECNICA_BACKEND_FUO
+├── .pytest_cache
+├── alembic
+├── app
+│   ├── __pycache__
+│   ├── config
+│   ├── contexts
+│   │   ├── __pycache__
+│   │   ├── auth
+│   │   │   ├── __pycache__
+│   │   │   ├── application
+│   │   │   ├── domain
+│   │   │   ├── infrastructure
+│   │   │   └── __init__.py
+│   │   ├── users
+│   │   │   ├── __pycache__
+│   │   │   ├── application
+│   │   │   ├── domain
+│   │   │   ├── infrastructure
+│   │   │   └── __init__.py
+│   │   └── shared
+│   │       ├── __pycache__
+│   │       ├── application
+│   │       ├── domain
+│   │       ├── infrastructure
+│   │       └── __init__.py
+│   ├── __init__.py
+│   └── main.py
+├── docker
+│   ├── Dockerfile
+│   ├── start-app.sh
+│   └── wait-for-sh.sh
+├── migrations
+├── tests
+├── .env
+├── .gitignore
+├── alembic.ini
+├── docker-compose.yml
+├── pytest.ini
+├── README.md
+└── requirements.txt
+```
 
 **Explicación de la estructura:**
 
