@@ -64,7 +64,7 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 - [cite_start]`application`: Casos de uso y servicios de aplicación que orquestan las interacciones del dominio. [cite: 30]
 - [cite_start]`infrastructure`: Adaptadores para preocupaciones externas (por ejemplo, repositorios de bases de datos, APIs externas). [cite: 32]
 
-# Estructura de Carpetas
+## Estructura de Carpetas
 
 .
 ├── PRUEBA_TECNICA_BACKEND_FUO/
@@ -105,24 +105,23 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 - **`app/`**: Contiene el código fuente principal de la aplicación.
   - **`config/`**: Archivos de configuración general para la aplicación.
   - [cite_start]**`contexts/`**: El corazón de la modularidad del proyecto, donde se agrupan las funcionalidades por dominio de negocio (bundle-contexts)[cite: 9].
-    - **`auth/`**: Contexto dedicado a la autenticación y autorización.
+    - [cite_start]**`auth/`**: Contexto dedicado a la autenticación y autorización[cite: 27].
     - [cite_start]**`users/`**: Contexto para la gestión de usuarios[cite: 27].
     - **`shared/`**: Contiene módulos o componentes que son comunes y reutilizables entre diferentes contexts.
-    - [cite_start]Dentro de cada contexto (`auth`, `users`, `shared`) encontrarás las siguientes capas, siguiendo la Arquitectura Hexagonal[cite: 6, 29, 30, 32]:
-      - **`application/`**: Implementa los casos de uso y la lógica de aplicación que orquesta el dominio.
+    - [cite_start]Dentro de cada contexto (`auth`, `users`, `shared`) encontrarás las siguientes capas, siguiendo la Arquitectura Hexagonal[cite: 16]:
+      - [cite_start]**`application/`**: Implementa los casos de uso y la lógica de aplicación que orquesta el dominio[cite: 30].
       - [cite_start]**`domain/`**: El núcleo de la lógica de negocio, independiente de las herramientas externas[cite: 17, 29].
-      - [cite_start]**`infrastructure/`**: Contiene los adaptadores para interactuar con herramientas externas (bases de datos, colas de mensajes, APIs REST)[cite: 18, 19, 20, 32].
-  - **`main.py`**: El punto de entrada principal de la aplicación FastAPI.
-- **`docker/`**: Archivos relacionados con la contenerización del proyecto.
-  - [cite_start]**`Dockerfile`**: Define la imagen Docker para la aplicación[cite: 43, 44].
+      - [cite_start]**`infrastructure/`**: Contiene los adaptadores para interactuar con herramientas externas (bases de datos, colas de mensajes, APIs REST)[cite: 19, 32].
+- [cite_start]**`docker/`**: Archivos relacionados con la contenerización del proyecto[cite: 42].
+  - [cite_start]**`Dockerfile`**: Define la imagen Docker para la aplicación[cite: 43].
   - **`start-app.sh`**: Script para iniciar la aplicación dentro del contenedor.
   - **`wait-for-sh.sh`**: Script de utilidad para esperar que otros servicios (como la base de datos o RabbitMQ) estén disponibles antes de iniciar la aplicación.
-- [cite_start]**`migrations/`**: Contiene los scripts de migración de la base de datos, gestionados por Alembic[cite: 15].
-- [cite_start]**`tests/`**: Incluye las pruebas unitarias para los casos de uso, con un enfoque en la cobertura de la capa de dominio[cite: 40, 41].
+- **`migrations/`**: Contiene los scripts de migración de la base de datos, gestionados por Alembic.
+- [cite_start]**`tests/`**: Incluye las pruebas unitarias para los casos de uso, con un enfoque en la cobertura de la capa de dominio[cite: 39, 40, 41].
 - **`.env`**: Archivo para definir variables de entorno (no se sube al control de versiones).
 - **`.gitignore`**: Especifica los archivos y directorios que Git debe ignorar.
 - **`alembic.ini`**: Archivo de configuración para Alembic.
-- [cite_start]**`docker-compose.yml`**: Define y ejecuta aplicaciones Docker multi-contenedor (FastAPI, RabbitMQ, base de datos)[cite: 43, 44].
+- [cite_start]**`docker-compose.yml`**: Define y ejecuta aplicaciones Docker multi-contenedor (FastAPI, RabbitMQ, base de datos)[cite: 44].
 - **`pytest.ini`**: Archivo de configuración para Pytest.
 - **`requirements.txt`**: Lista de dependencias de Python del proyecto.
 
