@@ -66,7 +66,6 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 
 ## Estructura de Carpetas
 
-.
 ├── PRUEBA*TECNICA_BACKEND_FUO
 │ ├── .pytest_cache
 │ ├── alembic
