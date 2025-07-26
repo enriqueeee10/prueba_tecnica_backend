@@ -1,6 +1,8 @@
 # PRUEBA_TECNICA_BACKEND
 
-Este proyecto sirve como una evaluación técnica para un sistema backend, construido con Python 3.x, FastAPI y SQLAlchemy, que demuestra una arquitectura robusta basada en la Arquitectura Hexagonal, CQRS (Command Query Responsibility Segregation) y Bundle-Contexts. El objetivo es establecer una base sólida, mantenible y escalable para una aplicación backend.
+Este proyecto es una evaluación técnica para un sistema backend, construido con Python 3.x, FastAPI y SQLAlchemy, que demuestra una arquitectura robusta basada en la **Arquitectura Hexagonal**, **CQRS (Command Query Responsibility Segregation)** y **Bundle-Contexts**. El objetivo es establecer una base sólida, mantenible y escalable para una aplicación backend.
+
+---
 
 ## Tabla de Contenidos
 
@@ -22,47 +24,53 @@ Este proyecto sirve como una evaluación técnica para un sistema backend, const
   - [Decisiones Arquitectónicas](#decisiones-arquitectónicas)
   - [Puntos de Evaluación](#puntos-de-evaluación)
 
+---
+
 ## Objetivo del Proyecto
 
-[cite_start]El objetivo principal de este proyecto es crear una base sólida para un proyecto backend que implemente: [cite: 3, 4]
+El objetivo principal de este proyecto es crear una base sólida para un proyecto backend que implemente:
 
-- [cite_start]**Arquitectura Hexagonal**: Para garantizar la independencia del dominio. [cite: 5, 6]
-- [cite_start]**CQRS**: Para operaciones diferenciadas de lectura y escritura. [cite: 7]
-- [cite_start]**Bundle-contexts**: Como estrategia para agrupar lógicamente los componentes, facilitando la escalabilidad y el manejo modular del proyecto. [cite: 9]
+- **Arquitectura Hexagonal**: Para garantizar la independencia del dominio.
+- **CQRS**: Para operaciones diferenciadas de lectura y escritura.
+- **Bundle-contexts**: Como estrategia para agrupar lógicamente los componentes, facilitando la escalabilidad y el manejo modular del proyecto.
 
-[cite_start]Queremos evaluar tu capacidad para estructurar, configurar y pensar en un diseño robusto que permita crecer el proyecto sin comprometer la mantenibilidad. [cite: 10]
+Queremos evaluar tu capacidad para estructurar, configurar y pensar en un diseño robusto que permita crecer el proyecto sin comprometer la mantenibilidad.
+
+---
 
 ## Arquitectura
 
 ### Arquitectura Hexagonal
 
-Este proyecto se adhiere al principio de la Arquitectura Hexagonal (también conocida como Puertos y Adaptadores). [cite_start]La lógica central del dominio está aislada de las preocupaciones externas. [cite: 16, 17]
+Este proyecto se adhiere al principio de la Arquitectura Hexagonal (también conocida como Puertos y Adaptadores). La lógica central del dominio está aislada de las preocupaciones externas.
 
-- [cite_start]**Puertos**: Definen las interfaces que el dominio utiliza para interactuar con el mundo exterior. [cite: 18]
-- [cite_start]**Adaptadores**: Implementan estos puertos, conectando el dominio a tecnologías específicas o sistemas externos (por ejemplo, bases de datos, frameworks web, colas de mensajes). [cite: 18, 19, 20]
+- **Puertos**: Definen las interfaces que el dominio utiliza para interactuar con el mundo exterior.
+- **Adaptadores**: Implementan estos puertos, conectando el dominio a tecnologías específicas o sistemas externos (por ejemplo, bases de datos, frameworks web, colas de mensajes).
 
-[cite_start]Esto asegura que la lógica de negocio permanezca independiente y testeable, permitiendo un fácil intercambio de tecnologías externas sin afectar el núcleo. [cite: 17]
+Esto asegura que la lógica de negocio permanezca independiente y testeable, permitiendo un fácil intercambio de tecnologías externas sin afectar el núcleo.
 
 ### CQRS (Command Query Responsibility Segregation)
 
-[cite_start]CQRS se implementa para separar estrictamente las responsabilidades de comandos (operaciones de escritura) y consultas (operaciones de lectura). [cite: 21, 22, 23]
+CQRS se implementa para separar estrictamente las responsabilidades de comandos (operaciones de escritura) y consultas (operaciones de lectura).
 
-- **Comandos**: Operaciones que cambian el estado del sistema (por ejemplo, crear un usuario). [cite_start]Estos deben procesarse mediante RabbitMQ (con al menos un consumidor implementado). [cite: 24]
-- **Consultas**: Operaciones que recuperan datos sin cambiar el estado del sistema (por ejemplo, obtener información de un usuario). [cite_start]Estas deben ejecutarse directamente contra el modelo de lectura. [cite: 25]
+- **Comandos**: Operaciones que cambian el estado del sistema (por ejemplo, crear un usuario). Estos deben procesarse mediante RabbitMQ (con al menos un consumidor implementado).
+- **Consultas**: Operaciones que recuperan datos sin cambiar el estado del sistema (por ejemplo, obtener información de un usuario). Estas deben ejecutarse directamente contra el modelo de lectura.
 
 Esta separación permite la escalabilidad y optimización independiente de las cargas de trabajo de lectura y escritura.
 
 ### Bundle-Contexts
 
-El proyecto está estructurado alrededor de "bundle-contexts", que son agrupaciones lógicas de componentes relacionados. [cite_start]Esto promueve la modularidad, la reutilización y una escalabilidad más sencilla. [cite: 9, 33]
+El proyecto está estructurado alrededor de "bundle-contexts", que son agrupaciones lógicas de componentes relacionados. Esto promueve la modularidad, la reutilización y una escalabilidad más sencilla.
 
-[cite_start]Actualmente, se definen al menos dos contexts lógicos: `users` y `auth`. [cite: 27]
+Actualmente, se definen al menos dos contexts lógicos: `users` y `auth`.
 
-[cite_start]Cada context debe incluir: [cite: 28]
+Cada context debe incluir:
 
-- [cite_start]`domain`: Lógica de negocio central y entidades específicas del contexto. [cite: 29]
-- [cite_start]`application`: Casos de uso y servicios de aplicación que orquestan las interacciones del dominio. [cite: 30]
-- [cite_start]`infrastructure`: Adaptadores para preocupaciones externas (por ejemplo, repositorios de bases de datos, APIs externas). [cite: 32]
+- `domain`: Lógica de negocio central y entidades específicas del contexto.
+- `application`: Casos de uso y servicios de aplicación que orquestan las interacciones del dominio.
+- `infrastructure`: Adaptadores para preocupaciones externas (por ejemplo, repositorios de bases de datos, APIs externas).
+
+---
 
 ## Estructura de Carpetas
 
@@ -71,34 +79,34 @@ PRUEBATECNICA_BACKEND_FIJO
 ├── .pytest_cache
 ├── alembic
 ├── app
-│   ├── __pycache__
-│   ├── config
-│   ├── contexts
-│   │   ├── __pycache__
-│   │   ├── auth
-│   │   │   ├── __pycache__
-│   │   │   ├── application
-│   │   │   ├── domain
-│   │   │   ├── infrastructure
-│   │   │   └── __init__.py
-│   │   ├── users
-│   │   │   ├── __pycache__
-│   │   │   ├── application
-│   │   │   ├── domain
-│   │   │   ├── infrastructure
-│   │   │   └── __init__.py
-│   │   └── shared
-│   │       ├── __pycache__
-│   │       ├── application
-│   │       ├── domain
-│   │       ├── infrastructure
-│   │       └── __init__.py
-│   ├── __init__.py
-│   └── main.py
+│   ├── __pycache__
+│   ├── config
+│   ├── contexts
+│   │   ├── __pycache__
+│   │   ├── auth
+│   │   │   ├── __pycache__
+│   │   │   ├── application
+│   │   │   ├── domain
+│   │   │   ├── infrastructure
+│   │   │   └── __init__.py
+│   │   ├── users
+│   │   │   ├── __pycache__
+│   │   │   ├── application
+│   │   │   ├── domain
+│   │   │   ├── infrastructure
+│   │   │   └── __init__.py
+│   │   └── shared
+│   │       ├── __pycache__
+│   │       ├── application
+│   │       ├── domain
+│   │       ├── infrastructure
+│   │       └── __init__.py
+│   ├── __init__.py
+│   └── main.py
 ├── docker
-│   ├── Dockerfile
-│   ├── start-app.sh
-│   └── wait-for-sh.sh
+│   ├── Dockerfile
+│   ├── start-app.sh
+│   └── wait-for-sh.sh
 ├── migrations
 ├── tests
 ├── .env
@@ -114,43 +122,49 @@ PRUEBATECNICA_BACKEND_FIJO
 
 - **`app/`**: Contiene el código fuente principal de la aplicación.
   - **`config/`**: Archivos de configuración general para la aplicación.
-  - [cite_start]**`contexts/`**: El corazón de la modularidad del proyecto, donde se agrupan las funcionalidades por dominio de negocio (bundle-contexts)[cite: 9].
-    - [cite_start]**`auth/`**: Contexto dedicado a la autenticación y autorización[cite: 27].
-    - [cite_start]**`users/`**: Contexto para la gestión de usuarios[cite: 27].
+  - **`contexts/`**: El corazón de la modularidad del proyecto, donde se agrupan las funcionalidades por dominio de negocio (bundle-contexts).
+    - **`auth/`**: Contexto dedicado a la autenticación y autorización.
+    - **`users/`**: Contexto para la gestión de usuarios.
     - **`shared/`**: Contiene módulos o componentes que son comunes y reutilizables entre diferentes contexts.
-    - [cite_start]Dentro de cada contexto (`auth`, `users`, `shared`) encontrarás las siguientes capas, siguiendo la Arquitectura Hexagonal[cite: 16]:
-      - [cite_start]**`application/`**: Implementa los casos de uso y la lógica de aplicación que orquesta el dominio[cite: 30].
-      - [cite_start]**`domain/`**: El núcleo de la lógica de negocio, independiente de las herramientas externas[cite: 17, 29].
-      - [cite_start]**`infrastructure/`**: Contiene los adaptadores para interactuar con herramientas externas (bases de datos, colas de mensajes, APIs REST)[cite: 19, 32].
-- [cite_start]**`docker/`**: Archivos relacionados con la contenerización del proyecto[cite: 42].
-  - [cite_start]**`Dockerfile`**: Define la imagen Docker para la aplicación[cite: 43].
+    - Dentro de cada contexto (`auth`, `users`, `shared`) encontrarás las siguientes capas, siguiendo la Arquitectura Hexagonal:
+      - **`application/`**: Implementa los casos de uso y la lógica de aplicación que orquesta el dominio.
+      - **`domain/`**: El núcleo de la lógica de negocio, independiente de las herramientas externas.
+      - **`infrastructure/`**: Contiene los adaptadores para interactuar con herramientas externas (bases de datos, colas de mensajes, APIs REST).
+- **`docker/`**: Archivos relacionados con la contenerización del proyecto.
+  - **`Dockerfile`**: Define la imagen Docker para la aplicación.
   - **`start-app.sh`**: Script para iniciar la aplicación dentro del contenedor.
   - **`wait-for-sh.sh`**: Script de utilidad para esperar que otros servicios (como la base de datos o RabbitMQ) estén disponibles antes de iniciar la aplicación.
 - **`migrations/`**: Contiene los scripts de migración de la base de datos, gestionados por Alembic.
-- [cite_start]**`tests/`**: Incluye las pruebas unitarias para los casos de uso, con un enfoque en la cobertura de la capa de dominio[cite: 39, 40, 41].
+- **`tests/`**: Incluye las pruebas unitarias para los casos de uso, con un enfoque en la cobertura de la capa de dominio.
 - **`.env`**: Archivo para definir variables de entorno (no se sube al control de versiones).
 - **`.gitignore`**: Especifica los archivos y directorios que Git debe ignorar.
 - **`alembic.ini`**: Archivo de configuración para Alembic.
-- [cite_start]**`docker-compose.yml`**: Define y ejecuta aplicaciones Docker multi-contenedor (FastAPI, RabbitMQ, base de datos)[cite: 44].
+- **`docker-compose.yml`**: Define y ejecuta aplicaciones Docker multi-contenedor (FastAPI, RabbitMQ, base de datos).
 - **`pytest.ini`**: Archivo de configuración para Pytest.
 - **`requirements.txt`**: Lista de dependencias de Python del proyecto.
 
-## [cite_start]Tecnologías Utilizadas [cite: 12]
+---
 
-- [cite_start]**Python**: 3.x [cite: 13]
-- [cite_start]**FastAPI**: Como framework web. [cite: 14]
-- [cite_start]**SQLAlchemy**: Para manejo de datos. [cite: 15]
-- [cite_start]**RabbitMQ**: Agente de mensajes para procesamiento asíncrono de comandos. [cite: 24]
-- [cite_start]**Docker**: Para la contenerización y consistencia del entorno. [cite: 42, 43, 44]
+## Tecnologías Utilizadas
+
+- **Python**: 3.x
+- **FastAPI**: Como framework web.
+- **SQLAlchemy**: Para manejo de datos.
+- **RabbitMQ**: Agente de mensajes para procesamiento asíncrono de comandos.
+- **Docker**: Para la contenerización y consistencia del entorno.
 - **Pytest**: Framework de pruebas.
+
+---
 
 ## Características Implementadas
 
-- [cite_start]**Gestión Básica de Usuarios**: Se implementa una gestión básica de usuarios. [cite: 35]
-  - [cite_start]**Comando**: Crear un usuario con nombre, correo y contraseña (almacenada de forma segura). [cite: 36]
-  - [cite_start]**Consulta**: Obtener información de un usuario por su ID. [cite: 37]
-- [cite_start]**CQRS**: Separación estricta entre comandos y consultas, con comandos procesados mediante RabbitMQ y consultas ejecutadas directamente contra el modelo de lectura. [cite: 23, 24, 25]
-- [cite_start]**Inyección de Dependencias**: Se agrega soporte para inyección de dependencias en todos los componentes, permitiendo una inicialización y configuración dinámica con bajo acoplamiento. [cite: 68, 69]
+- **Gestión Básica de Usuarios**: Se implementa una gestión básica de usuarios.
+  - **Comando**: Crear un usuario con nombre, correo y contraseña (almacenada de forma segura).
+  - **Consulta**: Obtener información de un usuario por su ID.
+- **CQRS**: Separación estricta entre comandos y consultas, con comandos procesados mediante RabbitMQ y consultas ejecutadas directamente contra el modelo de lectura.
+- **Inyección de Dependencias**: Se agrega soporte para inyección de dependencias en todos los componentes, permitiendo una inicialización y configuración dinámica con bajo acoplamiento.
+
+---
 
 ## Primeros Pasos
 
@@ -164,7 +178,7 @@ Estas instrucciones te permitirán obtener una copia del proyecto en funcionamie
 
 ### Ejecutar con Docker (Recomendado)
 
-La forma más sencilla de ejecutar el proyecto es usando Docker Compose. [cite_start]Esto configurará la aplicación FastAPI, RabbitMQ y la base de datos. [cite: 44]
+La forma más sencilla de ejecutar el proyecto es usando Docker Compose. Esto configurará la aplicación FastAPI, RabbitMQ y la base de datos.
 
 1.  **Clonar el repositorio:**
 
@@ -221,39 +235,50 @@ Si prefieres ejecutar la aplicación directamente en tu máquina sin Docker:
     ```
 
 6.  **Iniciar la aplicación FastAPI:**
+
     ```bash
     uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
     ```
+
     También necesitarás iniciar manualmente una instancia de RabbitMQ si estás ejecutando localmente y requieres su funcionalidad.
+
+---
 
 ## Ejecutar Pruebas
 
-[cite_start]Las pruebas unitarias son cruciales para asegurar la calidad y corrección del código. [cite: 39, 40]
+Las pruebas unitarias son cruciales para asegurar la calidad y corrección del código.
 
 1.  **Asegúrate de que las dependencias estén instaladas.**
+
 2.  **Ejecutar pruebas usando pytest:**
+
     ```bash
     pytest
     ```
-    [cite_start]Las pruebas buscan cubrir al menos el 80% del código de la capa de dominio. [cite: 41]
 
-## [cite_start]Decisiones Arquitectónicas [cite: 49]
+    Las pruebas buscan cubrir al menos el 80% del código de la capa de dominio.
 
-- **Independencia del Dominio**: La lógica de negocio central en las capas `domain` de cada contexto está diseñada para ser completamente independiente de frameworks externos o bases de datos. [cite_start]Esto se logra mediante el uso de interfaces (puertos) y sus implementaciones (adaptadores) en la capa de `infrastructure`. [cite: 17]
-- [cite_start]**Clara Separación de Responsabilidades**: Cada capa (dominio, aplicación, infraestructura) y cada contexto (auth, users, shared) tiene una responsabilidad bien definida, minimizando el acoplamiento y maximizando la cohesión. [cite: 57, 58]
-- [cite_start]**Procesamiento Asíncrono de Comandos**: Los comandos se manejan a través de RabbitMQ para desacoplar la solicitud del procesamiento real, mejorando la capacidad de respuesta y permitiendo una mejor escalabilidad para las operaciones de escritura. [cite: 24, 60]
-- [cite_start]**Escalabilidad Modular**: El enfoque de bundle-contexts permite una fácil adición de nuevas funcionalidades (nuevos contextos) sin afectar significativamente el código existente, promoviendo la escalabilidad horizontal. [cite: 33, 34, 61, 62]
-- [cite_start]**Testabilidad**: La arquitectura facilita pruebas unitarias exhaustivas, especialmente para la lógica del dominio, debido a su aislamiento. [cite: 40, 41, 63, 64, 65]
-- [cite_start]**Inyección de Dependencias**: Utilizada para gestionar las dependencias de los componentes, haciendo el sistema más flexible, testeable y mantenible al permitir que las dependencias sean configuradas y proporcionadas en tiempo de ejecución. [cite: 68, 69]
+---
 
-## [cite_start]Puntos de Evaluación [cite: 50]
+## Decisiones Arquitectónicas
+
+- **Independencia del Dominio**: La lógica de negocio central en las capas `domain` de cada contexto está diseñada para ser completamente independiente de frameworks externos o bases de datos. Esto se logra mediante el uso de interfaces (puertos) y sus implementaciones (adaptadores) en la capa de `infrastructure`.
+- **Clara Separación de Responsabilidades**: Cada capa (dominio, aplicación, infraestructura) y cada contexto (auth, users, shared) tiene una responsabilidad bien definida, minimizando el acoplamiento y maximizando la cohesión.
+- **Procesamiento Asíncrono de Comandos**: Los comandos se manejan a través de RabbitMQ para desacoplar la solicitud del procesamiento real, mejorando la capacidad de respuesta y permitiendo una mejor escalabilidad para las operaciones de escritura.
+- **Escalabilidad Modular**: El enfoque de bundle-contexts permite una fácil adición de nuevas funcionalidades (nuevos contextos) sin afectar significativamente el código existente, promoviendo la escalabilidad horizontal.
+- **Testabilidad**: La arquitectura facilita pruebas unitarias exhaustivas, especialmente para la lógica del dominio, debido a su aislamiento.
+- **Inyección de Dependencias**: Utilizada para gestionar las dependencias de los componentes, haciendo el sistema más flexible, testeable y mantenible al permitir que las dependencias sean configuradas y proporcionadas en tiempo de ejecución.
+
+---
+
+## Puntos de Evaluación
 
 Este proyecto aborda los siguientes criterios clave de evaluación:
 
-1.  [cite_start]**Diseño Modular**: Demostrado a través del uso correcto de la arquitectura hexagonal y la implementación efectiva de bundle-contexts. [cite: 51, 53, 54, 66, 67]
-2.  [cite_start]**Separación de Responsabilidades**: Las capas están claramente definidas y respetan su propósito. [cite: 55, 57, 58]
-3.  [cite_start]**CQRS**: Logrado a través de una separación adecuada entre lectura y escritura y el uso efectivo de RabbitMQ. [cite: 56, 59, 60]
-4.  [cite_start]**Escalabilidad**: La estructura del código permite añadir nuevos contexts sin dificultades. [cite: 61, 62]
-5.  [cite_start]**Pruebas**: Incluye pruebas unitarias para los casos de uso, asegurando al menos el 80% de cobertura del código de la capa de dominio. [cite: 39, 40, 41, 63, 64, 65]
-6.  [cite_start]**Bundle-contexts**: Implementación clara y funcional de los contexts. [cite: 66, 67]
-7.  [cite_start]**Inyección de Dependencias**: Soporte para inyección de dependencias en todos los componentes, permitiendo una inicialización y configuración dinámica con bajo acoplamiento. [cite: 68, 69]
+1.  **Diseño Modular**: Demostrado a través del uso correcto de la arquitectura hexagonal y la implementación efectiva de bundle-contexts.
+2.  **Separación de Responsabilidades**: Las capas están claramente definidas y respetan su propósito.
+3.  **CQRS**: Logrado a través de una separación adecuada entre lectura y escritura y el uso efectivo de RabbitMQ.
+4.  **Escalabilidad**: La estructura del código permite añadir nuevos contexts sin dificultades.
+5.  **Pruebas**: Incluye pruebas unitarias para los casos de uso, asegurando al menos el 80% de cobertura del código de la capa de dominio.
+6.  **Bundle-contexts**: Implementación clara y funcional de los contexts.
+7.  **Inyección de Dependencias**: Soporte para inyección de dependencias en todos los componentes, permitiendo una inicialización y configuración dinámica con bajo acoplamiento.
