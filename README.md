@@ -64,7 +64,7 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 - [cite_start]`application`: Casos de uso y servicios de aplicación que orquestan las interacciones del dominio. [cite: 30]
 - [cite_start]`infrastructure`: Adaptadores para preocupaciones externas (por ejemplo, repositorios de bases de datos, APIs externas). [cite: 32]
 
-## Estructura de Carpetas
+# Estructura de Carpetas
 
 .
 ├── PRUEBA_TECNICA_BACKEND_FUO/
