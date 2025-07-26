@@ -66,58 +66,65 @@ El proyecto está estructurado alrededor de "bundle-contexts", que son agrupacio
 
 ## Estructura de Carpetas
 
-PRUEBA_TECNICA_BACKEND_FIJO
-├── .pytest_cache
-├── alembic
-├── app
-│ ├── **pycache**
-│ ├── config
-│ ├── contexts
-│ │ ├── **pycache**
-│ │ ├── auth
-│ │ │ ├── **pycache**
-│ │ │ ├── application
-│ │ │ ├── domain
-│ │ │ ├── infrastructure
-│ │ │ └── **init**.py
-│ │ ├── users
-│ │ │ ├── **pycache**
-│ │ │ ├── application
-│ │ │ ├── domain
-│ │ │ ├── infrastructure
-│ │ │ └── **init**.py
-│ │ └── shared
-│ │ ├── **pycache**
-│ │ ├── application
-│ │ ├── domain
-│ │ ├── infrastructure
-│ │ └── **init**.py
-│ ├── **init**.py
-│ └── main.py
-├── docker
-│ ├── Dockerfile
-│ ├── start-app.sh
-│ └── wait-for-sh.sh
-├── migrations
-├── tests
-├── .env
-├── .gitignore
-├── alembic.ini
-├── docker-compose.yml
-├── pytest.ini
-├── README.md
-└── requirements.txt
+.
+├── PRUEBA_TECNICA_BACKEND_FUO/
+│ ├── .pytest_cache/
+│ ├── alembic/
+│ ├── app/
+│ │ ├── config/
+│ │ ├── contexts/
+│ │ │ ├── auth/
+│ │ │ │ ├── application/
+│ │ │ │ ├── domain/
+│ │ │ │ └── infrastructure/
+│ │ │ ├── users/
+│ │ │ │ ├── application/
+│ │ │ │ ├── domain/
+│ │ │ │ └── infrastructure/
+│ │ │ └── shared/
+│ │ │ ├── application/
+│ │ │ ├── domain/
+│ │ │ └── infrastructure/
+│ │ └── main.py
+│ ├── docker/
+│ │ ├── Dockerfile
+│ │ ├── start-app.sh
+│ │ └── wait-for-sh.sh
+│ ├── migrations/
+│ ├── tests/
+│ ├── .env
+│ ├── .gitignore
+│ ├── alembic.ini
+│ ├── docker-compose.yml
+│ ├── pytest.ini
+│ ├── README.md
+│ └── requirements.txt
 
-- `app/`: Contiene el código principal de la aplicación.
-  - `app/config/`: Archivos de configuración.
-  - `app/contexts/`: Aloja los bundle-contexts (`auth`, `users`, `shared`). Cada contexto sigue el patrón de Arquitectura Hexagonal con capas de `application`, `domain` e `infrastructure`.
-  - `app/main.py`: El punto de entrada para la aplicación FastAPI.
-- `docker/`: Archivos relacionados con Docker, incluyendo `Dockerfile`, `start-app.sh` y `wait-for.sh`.
-- `migrations/`: Scripts de migración de base de datos (gestionados por Alembic).
-- `tests/`: Pruebas unitarias y de integración para la aplicación.
-- `.env`: Variables de entorno (debe crearse a partir de `.env.example` si se proporciona).
-- `docker-compose.yml`: Define los servicios de la aplicación Docker multicontenedor (por ejemplo, aplicación FastAPI, RabbitMQ, base de datos).
-- `requirements.txt`: Dependencias de Python.
+**Explicación de la estructura:**
+
+- **`app/`**: Contiene el código fuente principal de la aplicación.
+  - **`config/`**: Archivos de configuración general para la aplicación.
+  - [cite_start]**`contexts/`**: El corazón de la modularidad del proyecto, donde se agrupan las funcionalidades por dominio de negocio (bundle-contexts)[cite: 9].
+    - **`auth/`**: Contexto dedicado a la autenticación y autorización.
+    - [cite_start]**`users/`**: Contexto para la gestión de usuarios[cite: 27].
+    - **`shared/`**: Contiene módulos o componentes que son comunes y reutilizables entre diferentes contexts.
+    - [cite_start]Dentro de cada contexto (`auth`, `users`, `shared`) encontrarás las siguientes capas, siguiendo la Arquitectura Hexagonal[cite: 6, 29, 30, 32]:
+      - **`application/`**: Implementa los casos de uso y la lógica de aplicación que orquesta el dominio.
+      - [cite_start]**`domain/`**: El núcleo de la lógica de negocio, independiente de las herramientas externas[cite: 17, 29].
+      - [cite_start]**`infrastructure/`**: Contiene los adaptadores para interactuar con herramientas externas (bases de datos, colas de mensajes, APIs REST)[cite: 18, 19, 20, 32].
+  - **`main.py`**: El punto de entrada principal de la aplicación FastAPI.
+- **`docker/`**: Archivos relacionados con la contenerización del proyecto.
+  - [cite_start]**`Dockerfile`**: Define la imagen Docker para la aplicación[cite: 43, 44].
+  - **`start-app.sh`**: Script para iniciar la aplicación dentro del contenedor.
+  - **`wait-for-sh.sh`**: Script de utilidad para esperar que otros servicios (como la base de datos o RabbitMQ) estén disponibles antes de iniciar la aplicación.
+- [cite_start]**`migrations/`**: Contiene los scripts de migración de la base de datos, gestionados por Alembic[cite: 15].
+- [cite_start]**`tests/`**: Incluye las pruebas unitarias para los casos de uso, con un enfoque en la cobertura de la capa de dominio[cite: 40, 41].
+- **`.env`**: Archivo para definir variables de entorno (no se sube al control de versiones).
+- **`.gitignore`**: Especifica los archivos y directorios que Git debe ignorar.
+- **`alembic.ini`**: Archivo de configuración para Alembic.
+- [cite_start]**`docker-compose.yml`**: Define y ejecuta aplicaciones Docker multi-contenedor (FastAPI, RabbitMQ, base de datos)[cite: 43, 44].
+- **`pytest.ini`**: Archivo de configuración para Pytest.
+- **`requirements.txt`**: Lista de dependencias de Python del proyecto.
 
 ## [cite_start]Tecnologías Utilizadas [cite: 12]
 
