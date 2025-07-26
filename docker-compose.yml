@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:admin12345@db:5432/hexagonal_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - db
+      - rabbitmq
+      - redis
+    volumes:
+      - .:/app
+    command: ["./docker/start-app.sh"]
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=hexagonal_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=admin12345
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  consumer:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:admin12345@db:5432/hexagonal_db
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - db
+      - rabbitmq
+    volumes:
+      - .:/app
+    command:
+      [
+        "./docker/wait-for.sh",
+        "rabbitmq",
+        "5672",
+        "--",
+        "python",
+        "-m",
+        "app.contexts.users.infrastructure.consumers.user_command_consumer",
+      ]
+
+volumes:
+  postgres_data:
+  rabbitmq_data:
+  redis_data:
