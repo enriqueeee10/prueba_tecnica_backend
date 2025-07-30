@@ -1,6 +1,10 @@
 from fastapi import APIRouter, HTTPException, Depends, status
 from dependency_injector.wiring import inject, Provide
 
+from app.contexts.users.application.commands.update_user_handler import (
+    UpdateUserCommand,
+    UpdateUserHandler,
+)
 from app.contexts.users.infrastructure.api.schemas import (
     CreateUserRequest,
     CreateUserResponse,
@@ -21,6 +25,7 @@ from app.shared.domain.exceptions import (
     DuplicateError,
     ValidationError,
 )
+
 from app.config.container import Container
 
 router = APIRouter()
@@ -65,6 +70,35 @@ async def get_user(
             name=user.name,
             email=user.email.value,
             is_active=user.is_active,
+        )
+
+    except NotFoundError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except DomainException as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
+
+
+@router.patch("/{user_id}", response_model=UserResponse)
+@inject
+async def update_user(
+    user_id: str,
+    request: CreateUserRequest,
+    handler: UpdateUserHandler = Depends(Provide[Container.update_user_handler]),
+):
+    print(
+        f"Entrando al endpoint PATCH: user_id={user_id}, name={request.name}, email={request.email}"
+    )
+    try:
+        command = UpdateUserCommand(
+            user_id=user_id, name=request.name, email=request.email
+        )
+        await handler.handle(command)
+
+        return UserResponse(
+            user_id=user_id,
+            name=request.name,
+            email=request.email,
+            is_active=True,  # Assuming the user is active after update
         )
 
     except NotFoundError as e:

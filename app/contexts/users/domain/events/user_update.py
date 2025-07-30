@@ -1,11 +1,9 @@
 from app.shared.domain.events import DomainEvent
 from typing import Dict, Any
-
-# app/contexts/users/application/commands/create_user_command.py
 from app.shared.application.command_bus import Command
 
 
-class UserCreated(DomainEvent):
+class UserUpdate(DomainEvent):
     def __init__(self, user_id: str, name: str, email: str):
         super().__init__()
         self.user_id = user_id
@@ -16,8 +14,11 @@ class UserCreated(DomainEvent):
         return {"user_id": self.user_id, "name": self.name, "email": self.email}
 
 
-class CreateUserCommand(Command):
-    def __init__(self, name: str, email: str, password: str):
+class UpdateUserCommand(Command):
+    def __init__(self, user_id: str, name: str, email: str):
+        self.user_id = user_id
         self.name = name
         self.email = email
-        self.password = password
+
+    def to_event(self) -> UserUpdate:
+        return UserUpdate(user_id=self.user_id, name=self.name, email=self.email)

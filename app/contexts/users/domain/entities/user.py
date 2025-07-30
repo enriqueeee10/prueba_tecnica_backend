@@ -42,6 +42,12 @@ class User:
     def change_name(self, new_name: str):
         self._name = new_name
 
+    def change_email(self, new_email: Email):
+        self._email = new_email
+
+    def change_password(self, new_password: Password):
+        self._hashed_password = new_password.hashed_value
+
     def deactivate(self):
         self._is_active = False
 

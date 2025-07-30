@@ -3,6 +3,9 @@ from dependency_injector.wiring import Provide, inject
 from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from app.config.settings import settings
+from app.contexts.users.application.commands.update_user_handler import (
+    UpdateUserHandler,
+)
 from app.shared.infrastructure.database import Database
 from app.shared.infrastructure.messaging.rabbitmq_connection import RabbitMQConnection
 from app.shared.application.command_bus import CommandBus
@@ -66,6 +69,11 @@ class Container(containers.DeclarativeContainer):
 
     get_user_handler = providers.Factory(
         GetUserHandler, user_repository=user_repository
+    )
+
+    update_user_handler = providers.Factory(
+        UpdateUserHandler,
+        user_repository=user_repository,
     )
 
     # Auth Context

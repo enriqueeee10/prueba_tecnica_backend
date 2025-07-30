@@ -1,3 +1,4 @@
+from http.client import HTTPException
 from typing import Optional, Callable
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -7,6 +8,7 @@ from app.contexts.users.domain.entities.user import User
 from app.contexts.users.domain.value_objects.user_id import UserId
 from app.contexts.users.domain.value_objects.email import Email
 from app.contexts.users.infrastructure.models.user_model import UserModel
+from app.shared.domain.exceptions import DomainException, NotFoundError
 
 
 class SQLAlchemyUserRepository(UserRepository):
@@ -65,3 +67,37 @@ class SQLAlchemyUserRepository(UserRepository):
             hashed_password=model.hashed_password,
             is_active=model.is_active,
         )
+
+    async def update(self, user: User) -> None:
+        print("Entrando al método update")
+        async with self._session_factory() as session:
+            try:
+                stmt = select(UserModel).where(UserModel.id == user.user_id.value)
+                result = await session.execute(stmt)
+                user_model = result.scalar_one_or_none()
+                if not user_model:
+                    raise Exception("User not found")
+
+                user_model.name = user.name
+                user_model.email = user.email.value
+                session.add(user_model)
+                await session.commit()
+            except Exception as e:
+                print(f"Error en update: {e}")
+                await session.rollback()
+                raise
+
+    async def delete(self, user_id: UserId) -> None:
+        async with self._session_factory() as session:
+            try:
+                stmt = select(UserModel).where(UserModel.id == user_id.value)
+                result = await session.execute(stmt)
+                user_model = result.scalar_one_or_none()
+                if not user_model:
+                    raise NotFoundError("User not found")
+
+                await session.delete(user_model)
+                await session.commit()
+            except Exception:
+                await session.rollback()
+                raise

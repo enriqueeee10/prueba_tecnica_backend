@@ -21,3 +21,11 @@ class UserRepository(ABC):
     @abstractmethod
     async def exists_by_email(self, email: Email) -> bool:
         pass
+
+    @abstractmethod
+    async def update(self, user: User) -> None:
+        pass
+
+    @abstractmethod
+    async def delete(self, user_id: UserId) -> None:
+        pass
